@@ -4,7 +4,7 @@ SELECT *
 FROM dbo.Student
 WHERE FirstName = 'Antonio'
 
---Find all Students with DateOfBirth greater than â€˜01.01.1999â€™--
+--Find all Students with DateOfBirth greater than ‘01.01.1999’--
 SELECT *
 FROM dbo.Student
 WHERE DateOfBirth > '1999-01-01'
@@ -14,7 +14,7 @@ SELECT *
 FROM dbo.Student
 WHERE Gender = 'M'
 
---Find all Students with LastNamestarting With â€˜Tâ€™--
+--Find all Students with LastNamestarting With ‘T’--
 SELECT *
 FROM dbo.Student
 WHERE LastName like 'T%'
@@ -24,7 +24,7 @@ SELECT *
 FROM dbo.Student
 WHERE EnrolledDate >= '1998-01-01' and EnrolledDate <= '1998-01-31'
 
---Find all Students with LastName starting With â€˜Jâ€™ enrolled in January/1999--(go promeniv od 1998 vo 1999 za da mi najde podatok)
+--Find all Students with LastName starting With ‘J’ enrolled in January/1999--(go promeniv od 1998 vo 1999 za da mi najde podatok)
 SELECT *
 FROM dbo.Student
 WHERE LastName like 'J%' and EnrolledDate >= '1999-01-01' and EnrolledDate <= '1999-01-31'
@@ -78,7 +78,7 @@ ALTER TABLE GradeDetails
 ADD CONSTRAINT DF_GradeDetails_AchievementMaxPoints
 DEFAULT 100 FOR [AchievementMaxPoints]
 
---Change GradeDetails table to prevent inserting AchievementPoints that will more than AchievementMaxPoints-- ovde mi javuva greska!!!!!!!!!!!!
+--Change GradeDetails table to prevent inserting AchievementPoints that will more than AchievementMaxPoints--
 ALTER TABLE [dbo].[GradeDetails] WITH CHECK
 ADD CONSTRAINT CHK_GradeDetails_AchievementPoints
 CHECK (AchievementPoints <= AchievementMaxPoints)
@@ -105,25 +105,21 @@ ALTER TABLE dbo.[GradeDetails] WITH CHECK
 ADD CONSTRAINT [FK_GradeDetails_AchievementType]
 FOREIGN KEY (AchievementTypeID) REFERENCES dbo.AchievementType(ID)
 
+ALTER TABLE dbo.[GradeDetails] WITH CHECK
+ADD CONSTRAINT [FK_GradeDetails_Grade]
+FOREIGN KEY (GradeID) REFERENCES dbo.Grade(ID)
+
 ---Homework requirement 6/6---
 --List all possible combinations of Courses names and AchievementType names that can be passed by student--
-SELECT C.Name, AT.Name
-FROM dbo.Course as C
-CROSS JOIN dbo.AchievementType as AT
+SELECT C.Name, AT.NameFROM dbo.Course as CCROSS JOIN dbo.AchievementType as AT
 
 --List all Teachers that has any exam Grade--
-SELECT T.*, G.Grade
-FROM dbo.Teacher as T
-INNER JOIN dbo.Grade as G ON T.ID = G.ID
+SELECT T.*, G.GradeFROM dbo.Teacher as TINNER JOIN dbo.Grade as G ON T.ID = G.ID
 
 --List all Teachers without exam Grade--
-SELECT T.*
-FROM dbo.Teacher as T
-LEFT JOIN dbo.Grade as G ON T.ID = G.TeacherID
+SELECT T.*FROM dbo.Teacher as TLEFT JOIN dbo.Grade as G ON T.ID = G.TeacherID
 WHERE G.Grade IS NULL
 
 --List all Students without exam Grade (using Right Join)--
-SELECT S.*
-FROM dbo.Grade as G
-RIGHT JOIN dbo.Student as S ON G.StudentID = S.ID
+SELECT S.*FROM dbo.Grade as GRIGHT JOIN dbo.Student as S ON G.StudentID = S.ID
 WHERE G.Grade IS NULL
