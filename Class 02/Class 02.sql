@@ -111,15 +111,23 @@ FOREIGN KEY (GradeID) REFERENCES dbo.Grade(ID)
 
 ---Homework requirement 6/6---
 --List all possible combinations of Courses names and AchievementType names that can be passed by student--
-SELECT C.Name, AT.NameFROM dbo.Course as CCROSS JOIN dbo.AchievementType as AT
+SELECT C.Name, AT.Name
+FROM dbo.Course as C
+CROSS JOIN dbo.AchievementType as AT
 
 --List all Teachers that has any exam Grade--
-SELECT T.*, G.GradeFROM dbo.Teacher as TINNER JOIN dbo.Grade as G ON T.ID = G.ID
+SELECT T.*, G.Grade
+FROM dbo.Teacher as T
+INNER JOIN dbo.Grade as G ON T.ID = G.ID
 
 --List all Teachers without exam Grade--
-SELECT T.*FROM dbo.Teacher as TLEFT JOIN dbo.Grade as G ON T.ID = G.TeacherID
+SELECT T.*
+FROM dbo.Teacher as T
+LEFT JOIN dbo.Grade as G ON T.ID = G.TeacherID
 WHERE G.Grade IS NULL
 
 --List all Students without exam Grade (using Right Join)--
-SELECT S.*FROM dbo.Grade as GRIGHT JOIN dbo.Student as S ON G.StudentID = S.ID
+SELECT S.*
+FROM dbo.Grade as G
+RIGHT JOIN dbo.Student as S ON G.StudentID = S.ID
 WHERE G.Grade IS NULL
